@@ -16,7 +16,11 @@ window.Vue = require('vue');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('products-table', require('./components/Products/ProductsTable.vue'));
+Vue.component('edit-product-modal', require('./components/Products/EditProductModal.vue'));
+Vue.component('add-product-modal', require('./components/Products/AddProductModal.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    methods: {}
 });

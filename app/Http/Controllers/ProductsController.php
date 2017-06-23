@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class ProductsController extends Controller
 {
@@ -18,11 +19,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
-
-        return view('products.index')->with(array(
-            'products' => $products
-        ));
+        return view('products.index');
     }
 
     /**
@@ -54,18 +51,20 @@ class ProductsController extends Controller
      */
     public function show(Products $products)
     {
-        return ('show');
+        $data = $products::all();
+        return json_encode($data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Products $products
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Products $products)
+    public function edit(Products $products, int $id)
     {
-        return ('edit');
+        return 'edit';
     }
 
     /**
@@ -77,17 +76,37 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Products $products)
     {
-        return ('update');
+        $id = $request->id;
+
+        $data = $products::find($id)->update(array(
+            'name'          =>  $request->name,
+            'description'   =>  $request->description,
+            'price'         =>  $request->price
+        ));
+
+        return response(array('updated'=>true));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Products  $products
+     * @param  \App\Products $products
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Products $products)
+    public function destroy(Products $products, $id)
     {
-        return('destroy');
+        try{
+            $products::find($id)->delete();
+            return response(array(
+                'deleted' => true
+            ));
+        }
+        catch (\Exception $e){
+            return response(array(
+                'deleted' => false,
+                'error' => $e->getMessage()
+            ));
+        }
     }
 }
