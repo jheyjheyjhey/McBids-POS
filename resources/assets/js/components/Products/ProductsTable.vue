@@ -37,7 +37,7 @@
             </div>
         </div>
         <edit-product-modal @updateProductTable="updateParent" :product="editProductList"></edit-product-modal>
-        <add-product-modal></add-product-modal>
+        <add-product-modal @addNewProduct="insertToProductsTable"></add-product-modal>
     </div>
 </template>
 
@@ -47,7 +47,7 @@
             return {
                 products: [],
                 isEdit: false,
-                newProduct: {name:"", description:"", price:""},
+                product: {name:"", description:"", price:""},
                 editProductList: {id: "", name:"", description:"", price:"", index:''}
             }
         },
@@ -81,7 +81,7 @@
             },
 
             deleteProduct(product){
-                if(confirm("Clicking OK will delete ["+product.name+"] "+product.description)){
+                if(confirm("Clicking OK will delete ["+product.name+"] - "+product.description)){
                     axios.delete('/products/'+product.id)
                         .then((response)=>{
                             if(response.status === 200){
@@ -96,6 +96,10 @@
             updateParent(product){
                 //replace index with new data.
                 this.products.splice(product.index, 1);
+                this.products.push(product);
+            },
+
+            insertToProductsTable(product){
                 this.products.push(product);
             }
         }

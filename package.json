@@ -18,5 +18,8 @@
     "lodash": "^4.17.4",
     "vue": "^2.*",
     "vuetable-2": "^1.6.5"
+  },
+  "dependencies": {
+    "vue-notification": "^1.2.3"
   }
 }

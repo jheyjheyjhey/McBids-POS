@@ -40,7 +40,26 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        return ('store');
+        try{
+            $post = new Products();
+            $post->name         = $request->name;
+            $post->description  = $request->description;
+            $post->price        = $request->price;
+            $post->photo        = base64_encode($request->name);
+            $post->stock        = 100;
+            $post->save();
+
+            return response(array(
+                'success'           =>  true,
+                'last_insert_id'    =>  $post->id
+            ));
+        }
+        catch (\Exception $e){
+            return response(array(
+                'success'   =>  false,
+                'error'     =>  $e->getMessage()
+            ));
+        }
     }
 
     /**
