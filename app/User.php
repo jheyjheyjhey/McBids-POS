@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
 
-    CONST USER_ROLE_ADMIN = 0;
+    CONST USER_ROLE_ADMIN   = 0;
+    CONST USER_ROLE_CREW    = 1;
 
     use Notifiable;
 

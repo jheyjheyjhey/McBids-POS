@@ -36,7 +36,7 @@
                 axios.get('/products/all')
                     .then((response) => {
                         if (response.status === 200) {
-                            this.products = response.data;
+                            this.products = _.sortBy(response.data, 'name');
                         }
                     }).catch(() => {
                 });
@@ -46,8 +46,7 @@
             },
             buyProduct(product){
                 this.toCheckout = product;
-                $("#checkout").modal().toggle();
-                console.log('may bumili ng '+product.name);
+                $("#checkout").modal('toggle');
             }
         }
     }
@@ -56,5 +55,6 @@
 <style scope>
     .paddingBottom{
         padding-bottom: 50px;
+        cursor: pointer;
     }
 </style>

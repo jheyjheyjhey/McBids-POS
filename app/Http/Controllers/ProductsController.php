@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckIfAdmin;
 use App\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -10,6 +11,7 @@ class ProductsController extends Controller
 {
     public function __construct(){
         $this->middleware('auth');
+        $this->middleware(CheckIfAdmin::class, ['except' => ['show']]);
     }
 
     /**

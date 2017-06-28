@@ -37,14 +37,16 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a class="" href="{{ url('/products') }}">
-                                <span>PRODUCTS</span>
-                            </a>
-                        </li>
+                        @if(Auth::user()->role == 0)
+                            <li>
+                                <a class="" href="{{ url('/products') }}">
+                                    <span>PRODUCTS</span>
+                                </a>
+                            </li>
+                        @endif
                         <li>
                             <a class="" href="{{ url('/sales') }}">
-                                <span>SALES</span>
+                            <span>SALES</span>
                             </a>
                         </li>
                     </ul>

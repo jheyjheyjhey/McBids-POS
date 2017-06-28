@@ -61,7 +61,7 @@
                 axios.get('/products/all')
                     .then((response)=>{
                         if(response.status === 200){
-                            this.products = response.data;
+                            this.products = _.sortBy(response.data, 'name');
                         }
                     }).catch(()=>{});
             },
@@ -87,7 +87,7 @@
                             if(response.status === 200){
                                 this.products.splice(this.products.indexOf(product), 1);
                             }
-                        }).catch(()=>{
+                        }).catch((response)=>{
                             alert(response.data.error);
                     });
                 }

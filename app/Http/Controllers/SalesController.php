@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Products;
 use App\Sales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SalesController extends Controller
 {
@@ -41,7 +42,23 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $post = new Sales();
+            $post->product_id   = $request->product_id;
+            $post->user_id      = Auth::user()->id;
+            $post->qty          = $request->qty;
+            $post->save();
+
+            return response(array(
+                'success'   =>  true
+            ));
+        }
+        catch (\Exception $e){
+            return response(array(
+                'success'   =>  false,
+                'error'     =>  $e->getMessage()
+            ));
+        }
     }
 
     /**
