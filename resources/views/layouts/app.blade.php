@@ -42,6 +42,11 @@
                                 <span>PRODUCTS</span>
                             </a>
                         </li>
+                        <li>
+                            <a class="" href="{{ url('/sales') }}">
+                                <span>SALES</span>
+                            </a>
+                        </li>
                     </ul>
                 @endif
 

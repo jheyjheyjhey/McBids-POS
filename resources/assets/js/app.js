@@ -22,6 +22,8 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('products-table', require('./components/Products/ProductsTable.vue'));
 Vue.component('edit-product-modal', require('./components/Products/EditProductModal.vue'));
 Vue.component('add-product-modal', require('./components/Products/AddProductModal.vue'));
+Vue.component('product-for-sale-list', require('./components/Sales/SalesList.vue'));
+Vue.component('checkout-modal', require('./components/Sales/Checkout.vue'));
 
 const app = new Vue({
     el: '#app',
