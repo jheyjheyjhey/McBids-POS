@@ -58,7 +58,7 @@
         computed: {
             totalPrice(){
                 this.price = this.toCheckout.price * this.defaultQty;
-                return "PHP "+this.price;
+                return "₱"+this.price;
             }
         },
         methods: {

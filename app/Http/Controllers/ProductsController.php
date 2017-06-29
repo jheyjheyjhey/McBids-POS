@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\CheckIfAdmin;
 use App\Products;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class ProductsController extends Controller
 {
@@ -42,25 +46,46 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $post = new Products();
-            $post->name         = $request->name;
-            $post->description  = $request->description;
-            $post->price        = $request->price;
-            $post->photo        = base64_encode($request->name);
-            $post->stock        = 100;
-            $post->save();
+        $validator = Validator::make($request->all(), [
+            'name'          =>  'required',
+            'price'         =>  'required',
+            'description'   =>  'required',
+            'photo'         =>  'required|image64:jpeg,jpg,png'
+        ]);
 
-            return response(array(
-                'success'           =>  true,
-                'last_insert_id'    =>  $post->id
-            ));
-        }
-        catch (\Exception $e){
+        if ($validator->fails()) {
             return response(array(
                 'success'   =>  false,
-                'error'     =>  $e->getMessage()
+                'error'     =>  $validator->errors()
             ));
+        }
+
+        else {
+            $image = file_get_contents($request->photo);
+            $imageData = $request->get('photo');
+            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+
+            $img = Image::make($image)->save(storage_path('images')."/".$fileName);
+
+            try {
+                $post = new Products();
+                $post->name = $request->name;
+                $post->description = $request->description;
+                $post->price = $request->price;
+                $post->photo = $fileName;
+                $post->stock = 100;
+                $post->save();
+
+                return response(array(
+                    'success' => true,
+                    'last_insert_id' => $post->id
+                ));
+            } catch (\Exception $e) {
+                return response(array(
+                    'success' => false,
+                    'error' => $e->getMessage()
+                ));
+            }
         }
     }
 
@@ -118,7 +143,10 @@ class ProductsController extends Controller
     public function destroy(Products $products, $id)
     {
         try{
-            $products::find($id)->delete();
+            $data = $products::find($id);
+            Storage::delete($data->photo);
+            $data->delete();
+
             return response(array(
                 'deleted' => true
             ));

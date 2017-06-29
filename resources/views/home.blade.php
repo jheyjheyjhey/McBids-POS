@@ -14,7 +14,7 @@
                     </div>
                     <div class="form-group">
                         <h3 class="text-center">
-                            <span class="text-success sales-count">{{$totalProfitToday}}</span><br>Estimated profit for today!
+                            <span class="text-success sales-count">₱{{$totalProfitToday}}</span><br>Estimated profit for today!
                         </h3>
                     </div>
                 </div>
